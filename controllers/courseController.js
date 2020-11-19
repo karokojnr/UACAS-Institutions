@@ -53,7 +53,7 @@ exports.postAddCourse = (req, res) => {
                             'success_msg',
                             'Course added successfully...'
                         );
-                        res.redirect('/');
+                        res.redirect('/courses');
                     })
                     .catch(err => console.log(err));
             }
