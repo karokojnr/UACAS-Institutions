@@ -5,7 +5,7 @@ const Certificate = require("../models/Certificate")
 exports.getAddCourse = async (req, res) => {
     const institutions = await Institution.find();
     const courses = await Course.find();
-    const certificates = await Certificate.find();
+    const certificates = await Certificate.find({ institution: req.user._id });
     const certificatesLength = certificates.length;
     const institutionsLength = institutions.length;
     const coursesLength = courses.length;
@@ -61,7 +61,7 @@ exports.postAddCourse = (req, res) => {
     }
 }
 exports.getCourses = async (req, res) => {
-    const institutions = await Institution.find();
+    const institutions = await Institution.find({ institution: req.user._id });
     const courses = await Course.find();
     const certificates = await Certificate.find();
     const certificatesLength = certificates.length;
@@ -77,7 +77,7 @@ exports.getCourses = async (req, res) => {
     });
 }
 exports.getEditCourse = async (req, res, next) => {
-    const institutions = await Institution.find();
+    const institutions = await Institution.find({ institution: req.user._id });
     const courses = await Course.find();
     const certificates = await Certificate.find();
     const certificatesLength = certificates.length;

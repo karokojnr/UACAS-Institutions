@@ -5,7 +5,7 @@ const Course = require("../models/Course")
 exports.getAddCertificate = async (req, res) => {
     const institutions = await Institution.find();
     const courses = await Course.find();
-    const certificates = await Certificate.find();
+    const certificates = await Certificate.find({ institution: req.user._id });
     const certificatesLength = certificates.length;
     const institutionsLength = institutions.length;
     const coursesLength = courses.length;
@@ -20,6 +20,7 @@ exports.getAddCertificate = async (req, res) => {
 }
 exports.postAddCertiificate = (req, res) => {
     const { certificateNumber, surname, otherNames, institution, regNumber, course } = req.body;
+    let errors = [];
     if (!certificateNumber || !surname || !institution || !otherNames || !regNumber || !course) {
         errors.push({ msg: 'Please enter all fields' });
     }
@@ -78,7 +79,7 @@ exports.postAddCertiificate = (req, res) => {
 exports.getCertificates = async (req, res) => {
     const institutions = await Institution.find();
     const courses = await Course.find();
-    const certificates = await Certificate.find();
+    const certificates = await Certificate.find({ institution: req.user._id });
     const certificatesLength = certificates.length;
     const institutionsLength = institutions.length;
     const coursesLength = courses.length;
@@ -98,7 +99,7 @@ exports.getCertificates = async (req, res) => {
     });
 }
 exports.getEditCertificate = async (req, res, next) => {
-    const allCertificates = await Certificate.find();
+    const allCertificates = await Certificate.find({ institution: req.user._id });
     const institutions = await Institution.find();
     const courses = await Course.find();
     const certificatesLength = allCertificates.length;
